@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\KategoriModel;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -11,20 +12,33 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 
 class ProductController extends Controller
 {
-    public function index() {
-        $products = Product::paginate(12);
+ public function index(Request $request)
+{
+    $kategoriList = KategoriModel::pluck('nama_kategori');
 
-        return view('products.index', compact('products'));
+    $products = Product::query();
+
+    if ($request->filled('kategori')) {
+        $kategoriId = KategoriModel::where('nama_kategori', $request->kategori)->value('id');
+        $products->where('id_kategori', $kategoriId);
     }
 
-    public function create() {
-        return view('products.create');
-    }
+    $products = $products->paginate(9);
+
+    return view('products.index', [
+        'products' => $products,
+        'kategori' => $kategoriList
+    ]);
+}
+
+
+
 
     public function store(Request $request)
      {
            $request->validate( [
             'nama' => 'required',
+            'id_kategori' => 'required',
             'harga' => 'required|numeric',
             'deskripsi' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -34,14 +48,23 @@ class ProductController extends Controller
         if ($request->hasFile('foto')) {
             $fileName = $request->file('foto')->store('images', 'public');
         }
+    // dd($request->all());
     Product::create([
         'nama' => $request->nama,
+        'id_kategori' => $request->id_kategori,
         'harga' => $request->harga,
         'deskripsi' => $request->deskripsi,
         'foto' => $fileName,
     ]);
         return redirect()->route('products.index')->with('success', 'Add product success');
     }
+
+    public function create()
+{
+    $kategori = KategoriModel::pluck('nama_kategori', 'id');
+    return view('products.create', compact('kategori'));
+}
+
 
     public function detil($id) {
         $product = Product::findOrFail($id);
@@ -50,14 +73,18 @@ class ProductController extends Controller
 
     public function edit($id) {
         $product = Product::findOrFail($id);
-        return view('products.edit', compact('product'));
+        $kategori = KategoriModel::pluck('nama_kategori', 'id');
+        // dd($kategori);
+        return view('products.edit', compact('product','kategori'));
     }
     
     public function update(Request $request, $id) {
+        // dd($request->all());
         $product = Product::findOrFail($id);
     
         $request->validate([
             'nama' => 'required',
+            'id_kategori' => 'required',
             'harga' => 'required|numeric',
             'deskripsi' => 'required',
             'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
@@ -74,6 +101,7 @@ class ProductController extends Controller
     
         $product->update([
             'nama' => $request->nama,
+            'id_kategori' => $request->id_kategori,
             'harga' => $request->harga,
             'deskripsi' => $request->deskripsi,
         ]);

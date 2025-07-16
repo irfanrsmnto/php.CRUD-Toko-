@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use function Laravel\Prompts\table;
 
 class Product extends Model
 {
-    protected $fillable = [
-        'nama',
-        'harga',
-        'deskripsi',
-        'foto'
+
+    protected $table = 'products';
+    protected $guarded = [
+        'id'
     ];
 }

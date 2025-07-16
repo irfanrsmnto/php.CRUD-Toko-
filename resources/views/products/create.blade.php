@@ -29,6 +29,19 @@
                         <x-input-error :messages="$errors->get('nama')" class="mt-2" />
                     </div>
 
+                    <div>
+                        <x-input-label for="kategori" :value="__('Kategori')" />
+                        <select id="id_kategori" name="id_kategori" required
+                            class="block mt-1 w-full rounded-md border-gray-300 focus:border-indigo-500 focus:ring-indigo-500">
+                            <option value="">-- Pilih Kategori --</option>
+                            @foreach ($kategori as $id => $nama)
+                                <option value="{{ $id }}">
+                                    {{ $nama }} </option>
+                            @endforeach
+                        </select>
+                        <x-input-error :messages="$errors->get('id_kategori')" class="mt-2" />
+                    </div>
+
                     <div class="mt-4">
                         <x-input-label for="harga" :value="__('Harga')" />
                         <x-text-input id="harga" class="block mt-1 w-full" type="text" name="harga"
