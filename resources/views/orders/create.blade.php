@@ -29,13 +29,13 @@
                 <h3 class="font-semibold mb-2">Pilih Produk</h3>
                 @foreach ($products as $product)
                     <div class="flex items-center mb-2">
-                        <input type="checkbox" name="products[{{ $product->id }}][id]" value="{{ $product->id }}"
-                            class="mr-2">
+                        <input type="checkbox" name="product_ids[]" value="{{ $product->id }}" class="mr-2">
                         <span class="w-64">{{ $product->nama }} - Rp {{ number_format($product->harga) }}</span>
-                        <input type="number" name="products[{{ $product->id }}][qty]" value="1" min="1"
+                        <input type="number" name="qtys[{{ $product->id }}]" value="1" min="1"
                             class="ml-4 w-20 border rounded p-1" placeholder="Qty">
                     </div>
                 @endforeach
+
             </div>
 
             <div class="mt-6">

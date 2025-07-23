@@ -33,7 +33,7 @@
             </h2>
         </div>
 
-        <div class="w-full grid md:grid-cols-3 mt-4 gap-6">
+        <div class="w-full grid sm:grid-cols-2 md:grid-cols-3 mt-4 gap-6">
             @foreach ($products as $product)
                 <div class="flex flex-col border rounded-md p-4 bg-white shadow-md">
                     <img src="{{ asset('storage/' . $product->foto) }}" alt="Product Image"

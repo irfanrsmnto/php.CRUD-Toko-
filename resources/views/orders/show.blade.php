@@ -23,7 +23,7 @@
             <tbody>
                 @foreach ($order->items as $item)
                     <tr>
-                        <td class="p-2 border">{{ $item->product->nama }}</td>
+                        <td class="p-2 border">{{ $item->product->nama ?? 'Produk tidak ditemukan' }}</td>
                         <td class="p-2 border">{{ $item->qty }}</td>
                         <td class="p-2 border">Rp {{ number_format($item->harga_satuan) }}</td>
                         <td class="p-2 border">Rp {{ number_format($item->qty * $item->harga_satuan) }}</td>

@@ -29,10 +29,9 @@ class ProductController extends Controller
         'products' => $products,
         'kategori' => $kategoriList
     ]);
+
+    $products = Product::withoutTrashed();
 }
-
-
-
 
     public function store(Request $request)
      {

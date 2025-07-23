@@ -16,26 +16,42 @@
                     <th class="p-2">Total Harga</th>
                     <th class="p-2">Status</th>
                     <th class="p-2">Tanggal</th>
+                    <th class="p-2">Lihat Detail</th> <!-- kolom tambahan -->
                 </tr>
             </thead>
             <tbody>
                 @foreach ($orders as $order)
                     <tr class="border-t">
-                        <td class="p-2"><a href="{{ route('orders.show', $order->id) }}"
-                                class=" border p-2 rounded-md bg-gray-100 hover:bg-gray-200">Lihat Detail</a></td>
+                        <!-- Pelanggan: nama user -->
+                        <td class="p-2">{{ $order->user->name ?? 'Tidak diketahui' }}</td>
+
                         <td class="p-2">Rp {{ number_format($order->total_harga) }}</td>
+
                         <td class="p-2">
                             <form action="{{ route('orders.updateStatus', $order->id) }}" method="POST">
                                 @csrf
                                 @method('PATCH')
-                                <select name="status" onchange="this.form.submit()" class="border rounded p-1">
-                                    <option {{ $order->status == 'baru' ? 'selected' : '' }}>baru</option>
-                                    <option {{ $order->status == 'diproses' ? 'selected' : '' }}>diproses</option>
-                                    <option {{ $order->status == 'selesai' ? 'selected' : '' }}>selesai</option>
+                                <select name="status" onchange="this.form.submit()"
+                                    class=" border rounded text-md w-auto">
+                                    <option value="baru" {{ $order->status == 'baru' ? 'selected' : '' }}>baru
+                                    </option>
+                                    <option value="diproses" {{ $order->status == 'diproses' ? 'selected' : '' }}>
+                                        diproses</option>
+                                    <option value="selesai" {{ $order->status == 'selesai' ? 'selected' : '' }}>selesai
+                                    </option>
                                 </select>
                             </form>
                         </td>
+
                         <td class="p-2">{{ $order->created_at->format('d-m-Y') }}</td>
+
+                        <!-- Tombol Lihat Detail -->
+                        <td class="p-2">
+                            <a href="{{ route('orders.show', $order->id) }}"
+                                class="border p-2 rounded-md bg-gray-100 hover:bg-gray-200">
+                                Lihat Detail
+                            </a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
