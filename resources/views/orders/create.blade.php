@@ -40,7 +40,7 @@
 
             <div class="mt-6">
                 <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">
-                    Simpan Order
+                    Pesan Sekarang
                 </button>
                 <a href="{{ route('orders.index') }}" class="ml-4 text-gray-500 hover:underline">Batal</a>
             </div>
